@@ -76,12 +76,8 @@ async def convert(bot, update):
                 message_id=c.message_id
             )
             logger.info(the_real_download_location)
-            width = 0
-            height = 0
-            duration = 0
             metadata = extractMetadata(createParser(the_real_download_location))
-            if metadata.has("duration"):
-                duration = metadata.get('duration').seconds
+            duration = metadata.get('duration').seconds if metadata.has("duration") else 0
             thumb_image_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
             if not os.path.exists(thumb_image_path):
                 thumb_image_path = await take_screen_shot(
@@ -94,10 +90,8 @@ async def convert(bot, update):
                 )
             logger.info(thumb_image_path)
             metadata = extractMetadata(createParser(thumb_image_path))
-            if metadata.has("width"):
-                width = metadata.get("width")
-            if metadata.has("height"):
-                height = metadata.get("height")
+            width = metadata.get("width") if metadata.has("width") else 0
+            height = metadata.get("height") if metadata.has("height") else 0
             Image.open(thumb_image_path).convert("RGB").save(thumb_image_path)
             img = Image.open(thumb_image_path)
             img.resize((90, height))
@@ -129,7 +123,7 @@ async def convert(bot, update):
                   chat_id=update.chat.id,
                   message_id=c.message_id
             )
-            
+
     else:
         await bot.send_message(
             chat_id=update.chat.id,

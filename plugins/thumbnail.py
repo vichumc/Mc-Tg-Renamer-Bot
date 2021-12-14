@@ -71,20 +71,20 @@ async def show_thumb(bot, update):
             thumb_image_path = thumb_image_path
         else:
             thumb_image_path = None    
-    
-    if thumb_image_path is not None:
-         await bot.send_photo(
-               chat_id=update.chat.id,
-               photo=thumb_image_path,
-               caption=Scripted.CURRENT_THUMBNAIL,
-               reply_to_message_id=update.message_id)
 
-        
-    elif thumb_image_path is None:
-         await bot.send_message(
-               chat_id=update.chat.id,
-               text=Scripted.NO_THUMBNAIL_FOUND,
-               reply_to_message_id=update.message_id)
+    if thumb_image_path is not None:
+        await bot.send_photo(
+              chat_id=update.chat.id,
+              photo=thumb_image_path,
+              caption=Scripted.CURRENT_THUMBNAIL,
+              reply_to_message_id=update.message_id)
+
+
+    else:
+        await bot.send_message(
+              chat_id=update.chat.id,
+              text=Scripted.NO_THUMBNAIL_FOUND,
+              reply_to_message_id=update.message_id)
 
 
 @Clinton.on_message(filters.private & filters.command(["dthumbnail"]))

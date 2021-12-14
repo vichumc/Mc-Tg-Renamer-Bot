@@ -90,13 +90,9 @@ async def rename_doc(bot, update):
                 else:
                     thumb_image_path = None
             else:
-                width = 0
-                height = 0
                 metadata = extractMetadata(createParser(thumb_image_path))
-                if metadata.has("width"):
-                    width = metadata.get("width")
-                if metadata.has("height"):
-                    height = metadata.get("height")
+                width = metadata.get("width") if metadata.has("width") else 0
+                height = metadata.get("height") if metadata.has("height") else 0
                 Image.open(thumb_image_path).convert("RGB").save(thumb_image_path)
                 img = Image.open(thumb_image_path)
                 img.resize((320, height))
